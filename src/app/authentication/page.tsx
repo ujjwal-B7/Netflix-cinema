@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import Input from "@/components/Input";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { error } from "console";
+
+import axios from "axios";
+
+import { useRouter } from "next/navigation";
 
 interface FormData {
   name: string;
@@ -13,6 +16,7 @@ interface FormData {
 }
 
 const page = () => {
+  const router = useRouter();
   const [variant, setVariant] = useState("login");
 
   const toggleVariant = () => {
@@ -37,10 +41,20 @@ const page = () => {
           },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async () => {};
+  const onSubmit: SubmitHandler<FormData> = async (info) => {
+    console.log("reached", typeof info, info);
+    try {
+      const data = await axios.post("/api/auth/registerUser", info);
+      console.log("data", data);
+      router.push("/");
+    } catch (error) {
+      console.log("axios error: ", error);
+    }
+  };
+
   return (
     <>
-      <div className="relative h-screen w-full bg-[url('/images/authBg.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
+      <div className="relative h-screen w-full bg-[url('/images/authBg.jpg')] bg-no-repeat bg-center bg-fixed bg-cover overflow-y-auto">
         <div className="bg-black/50 w-full h-full">
           <nav className="px-12 py-5">
             <div>
@@ -127,6 +141,7 @@ const page = () => {
                     label="Password"
                   />
                   <button
+                    type="submit"
                     onClick={handleSubmit(onSubmit)}
                     className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
                   >

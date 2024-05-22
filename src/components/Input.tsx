@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { ForwardedRef, forwardRef } from "react";
 
 interface Props {
@@ -6,7 +6,10 @@ interface Props {
   type: string;
   label: string;
   error?: string;
-  [x: string]: any;
+  // [x:string] -> represents the key of object
+  // any -> represents the value of key
+  // for.eg: if we send age =20,boolean=true then the key is always string 'age','boolean' but the value could be number,boolean, so any type that means any value is acceptable
+  [key: string]: any;
 }
 
 const Input = forwardRef(
@@ -38,5 +41,5 @@ const Input = forwardRef(
     );
   }
 );
-Input.displayName = "Input";
+// Input.displayName = "Input";
 export default Input;
