@@ -10,10 +10,8 @@ export const POST = async (req: NextRequest) => {
 
     await connectDB();
 
-    console.log("api-endpoint", req);
 
     const { name, email, password } = await req.json();
-    console.log("*********", name, email, password);
 
     const isDuplicateEmail = await User.findOne({ email });
 

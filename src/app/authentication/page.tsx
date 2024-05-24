@@ -9,8 +9,10 @@ import axios from "axios";
 
 import { useRouter } from "next/navigation";
 
+import { signIn } from "next-auth/react";
+
 interface FormData {
-  name: string;
+  name?: string;
   email: string;
   password: string;
 }
@@ -42,13 +44,25 @@ const page = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (info) => {
-    console.log("reached", typeof info, info);
-    try {
-      const data = await axios.post("/api/auth/registerUser", info);
-      console.log("data", data);
-      router.push("/");
-    } catch (error) {
-      console.log("axios error: ", error);
+    if (variant === "register") {
+      try {
+        await axios.post("/api/auth/registerUser", info);
+        router.push("/");
+      } catch (error) {
+        console.log("axios error: ", error);
+      }
+    }
+    let res;
+    if (variant === "login") {
+      res = await signIn("Credentials", {
+        ...info,
+        redirect: false,
+      });
+      if (res && res.ok) {
+        router.push("/");
+      } else {
+        console.log("Invalid credentials.");
+      }
     }
   };
 
