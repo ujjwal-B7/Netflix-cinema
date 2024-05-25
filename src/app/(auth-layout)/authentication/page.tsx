@@ -20,6 +20,7 @@ interface FormData {
 const page = () => {
   const router = useRouter();
   const [variant, setVariant] = useState("login");
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggleVariant = () => {
     setVariant((prev) => (prev === "login" ? "register" : "login"));
@@ -46,7 +47,9 @@ const page = () => {
   const onSubmit: SubmitHandler<FormData> = async (info) => {
     if (variant === "register") {
       try {
+        setIsLoading(!isLoading);
         await axios.post("/api/auth/registerUser", info);
+        setIsLoading(!isLoading);
         router.push("/");
       } catch (error) {
         console.log("axios error: ", error);
@@ -54,11 +57,13 @@ const page = () => {
     }
     let res;
     if (variant === "login") {
+      setIsLoading(!isLoading);
       res = await signIn("Credentials", {
         ...info,
         redirect: false,
       });
       if (res && res.ok) {
+        setIsLoading(!isLoading);
         router.push("/");
       } else {
         console.log("Invalid credentials.");
@@ -159,7 +164,17 @@ const page = () => {
                     onClick={handleSubmit(onSubmit)}
                     className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
                   >
-                    {variant === "login" ? "Login" : "Register"}
+                    {variant === "login" ? (
+                      isLoading ? (
+                        "Login"
+                      ) : (
+                        <span className="loader">. . .</span>
+                      )
+                    ) : isLoading ? (
+                      "Register"
+                    ) : (
+                      <span className="loader">. . .</span>
+                    )}
                   </button>
                 </div>
                 <p className="text-neutral-500 mt-12">

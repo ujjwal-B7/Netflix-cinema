@@ -9,3 +9,7 @@ body{
 @apply bg-zinc-900 text-white
 }
 
+.loader{
+  @apply font-semibold;
+}
+
