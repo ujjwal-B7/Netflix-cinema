@@ -23,7 +23,7 @@ const HeroCard = ({
           <img
             className="object-cover h-full w-full"
             src={`${baseImageUrl}${
-              filteredTrendingMovie.poster_path ||
+              filteredTrendingMovie.backdrop_path ||
               filteredTrendingMovie.poster_path
             }`}
             alt="trending_filteredTrendingMovie"

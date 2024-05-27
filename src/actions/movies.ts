@@ -17,3 +17,9 @@ export const getGenreMovies = async () => {
   //   }
   //   return genres;
 };
+
+export const fetchMovieDetails = async (id: number) => {
+  const movieDetails = await getApiResponse(`/movie/${id}?append_to_response=videos`)
+
+  return movieDetails
+}

@@ -10,6 +10,8 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
+  const favorites = localStorage.getItem("favorites");
+
   return (
     <nav className="z-50 bg-black/80 h-16 flex items-center justify-between lg:px-20 px-5">
       <div className="flex gap-10">
@@ -29,9 +31,14 @@ const Navbar = () => {
             </g>
           </svg>
         </Link>
-        <div className="space-x-4">
+        <div className="space-x-4 relative">
           <Link href="/tv-shows">TV Shows</Link>
-          <Link href="/favorites">Favorites</Link>
+          <Link className="relative" href="/favorites">
+            Favorites
+          </Link>
+          <p className="bg-zinc-900 rounded-full px-1.5 absolute -top-2 -right-3 text-[0.8rem]">
+            3
+          </p>
         </div>
       </div>
       <div className="relative flex items-center gap-7 text-sm">

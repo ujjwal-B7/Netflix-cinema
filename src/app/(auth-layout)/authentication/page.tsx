@@ -95,7 +95,7 @@ const page = () => {
           </nav>
           <div className="px-12 py-5 flex justify-center">
             <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-lg rounded-md w-full">
-              <h2 className="text-white text-4xl mb-8 semibold">
+              <h2 className="text-white text-[2.3rem] mb-8 font-semibold">
                 {variant === "login" ? "Sign In" : "Create an account"}
               </h2>
               <form onSubmit={handleSubmit(onSubmit)}>

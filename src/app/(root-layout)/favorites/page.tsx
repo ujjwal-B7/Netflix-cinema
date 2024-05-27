@@ -1,9 +1,54 @@
-import React from 'react'
+"use client";
+
+import axios from "axios";
+
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+import { Movie } from "@/utils/types";
+import { getApiResponse } from "@/utils/movie-response";
+import { fetchMovieDetails } from "@/actions/movies";
+import MovieCard from "@/components/MovieCard";
 
 const Favorites = () => {
-  return (
-    <div>Favorites</div>
-  )
-}
+  const { data: session } = useSession();
+  const [myFavoriteMovies, setMyFavoriteMovies] = useState<Movie[]>([]);
 
-export default Favorites
+  let favoriteMovies: number[];
+  const getFavorites = async () => {
+    try {
+      const data = await axios.get(`/api/favorites/${session?.user?.email}`);
+      favoriteMovies = data.data;
+      localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
+      console.log("favorites", favoriteMovies);
+
+      const myListDetails = await Promise.all(
+        favoriteMovies.map(async (movieId: number) => {
+          const movieDetails = await fetchMovieDetails(movieId);
+          return movieDetails;
+        })
+      );
+      setMyFavoriteMovies(myListDetails);
+    } catch (error) {
+      console.log("Get favorites error:", error);
+    }
+  };
+  useEffect(() => {
+    if (session) {
+      getFavorites();
+    }
+  }, [session]);
+
+  return (
+    <div className="flex flex-wrap gap-10 px-20 py-10">
+      {myFavoriteMovies &&
+        myFavoriteMovies.map((movie: Movie) => (
+          <div>
+            <MovieCard key={movie.id} filteredTrendingMovie={movie} />
+          </div>
+        ))}
+    </div>
+  );
+};
+
+export default Favorites;

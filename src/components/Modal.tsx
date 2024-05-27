@@ -1,18 +1,30 @@
 "use client";
-import { getApiResponse } from "@/utils/movie-response";
+
+import axios from "axios";
+
 import { Genre, Movie, Video } from "@/utils/types";
 import { AddCircle, CancelRounded, RemoveCircle } from "@mui/icons-material";
+
 import { useEffect, useState } from "react";
+
+import { useSession } from "next-auth/react";
 
 interface Props {
   filteredTrendingMovie: Movie;
   closeModal: () => void;
 }
 
+interface User {
+  name: string;
+  email: string;
+  favorites: number[];
+}
+
 const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
   const [video, setVideo] = useState<string>("");
   const [genres, setGenres] = useState<Genre[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { data: session } = useSession();
 
   const options = {
     method: "GET",
@@ -29,8 +41,6 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
         options
       );
       const data = await res.json();
-
-      console.log(data);
 
       if (data?.videos) {
         const index = data.videos.results.findIndex(
@@ -51,10 +61,19 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
     getMovieDetails();
   }, [filteredTrendingMovie]);
 
-  const handleMyList = () => {};
+  const handleMyList = async () => {
+    try {
+      await axios.post(`/api/favorites/${session?.user?.email}`, {
+        movieId: filteredTrendingMovie.id,
+      });
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 bg-black/50 w-full h-screen">
+    <div className="fixed inset-0 bg-black/50 w-full h-screen z-50">
       <div className="fixed inset-0 z-30 bg-black-1 bg-opacity-95 w-full max-w-2xl mx-auto overflow-hidden overflow-y-scroll scrollbar-hide rounded-xl">
         <button className="absolute right-5 top-5 z-40" onClick={closeModal}>
           <CancelRounded
@@ -94,7 +113,6 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
               )}
             </div>
           </div>
-
           <div className="flex gap-2">
             <p className="text-base-bold">Release Date:</p>
             <p className="text-base-light">

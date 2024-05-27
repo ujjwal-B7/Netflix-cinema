@@ -10,7 +10,6 @@ export const POST = async (req: NextRequest) => {
 
     await connectDB();
 
-
     const { name, email, password } = await req.json();
 
     const isDuplicateEmail = await User.findOne({ email });
@@ -37,3 +36,4 @@ export const POST = async (req: NextRequest) => {
     );
   }
 };
+
