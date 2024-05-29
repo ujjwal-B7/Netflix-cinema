@@ -43,7 +43,7 @@ const Favorites = () => {
       {myFavoriteMovies &&
         myFavoriteMovies.map((movie: Movie) => (
           <div>
-            <MovieCard key={movie.id} filteredTrendingMovie={movie} />
+            <MovieCard key={movie.id} movie={movie} />
           </div>
         ))}
     </div>

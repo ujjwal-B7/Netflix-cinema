@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  filteredTrendingMovie: Movie;
+  movie: Movie;
   closeModal: () => void;
 }
 
@@ -21,7 +21,7 @@ interface User {
   favorites: number[];
 }
 
-const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
+const Modal = ({ movie, closeModal }: Props) => {
   const router = useRouter();
   const [video, setVideo] = useState<string>("");
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -39,7 +39,7 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
   const getMovieDetails = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_MOVIEDB_URL}/movie/${filteredTrendingMovie.id}?append_to_response=videos`,
+        `${process.env.NEXT_PUBLIC_MOVIEDB_URL}/movie/${movie.id}?append_to_response=videos`,
         options
       );
       const data = await res.json();
@@ -61,16 +61,14 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
 
   useEffect(() => {
     getMovieDetails();
-  }, [filteredTrendingMovie]);
+  }, [movie]);
 
   const getUser = async () => {
     try {
       const response = await axios.get(
         `/api/favorites/${session?.user?.email}`
       );
-      setIsFavorite(
-        response.data.find((item: number) => item === filteredTrendingMovie.id)
-      );
+      setIsFavorite(response.data.find((item: number) => item === movie.id));
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +83,7 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
   const handleMyList = async () => {
     try {
       await axios.post(`/api/favorites/${session?.user?.email}`, {
-        movieId: filteredTrendingMovie.id,
+        movieId: movie.id,
       });
       setIsFavorite(!isFavorite);
       router.refresh();
@@ -116,9 +114,7 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
           <div className="flex justify-between">
             <div className="flex gap-2">
               <p className="text-base-bold">Name:</p>
-              <p className="text-base-light">
-                {filteredTrendingMovie?.title || filteredTrendingMovie?.name}
-              </p>
+              <p className="text-base-light">{movie?.title || movie?.name}</p>
             </div>
             <div className="flex gap-3">
               {isFavorite ? (
@@ -142,18 +138,14 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
           </div>
           <div className="flex gap-2">
             <p className="text-base-bold">Release Date:</p>
-            <p className="text-base-light">
-              {filteredTrendingMovie?.release_date}
-            </p>
+            <p className="text-base-light">{movie?.release_date}</p>
           </div>
 
-          <p className="text-base-light">{filteredTrendingMovie?.overview}</p>
+          <p className="text-base-light">{movie?.overview}</p>
 
           <div className="flex gap-2">
             <p className="text-base-bold">Rating:</p>
-            <p className="text-base-light">
-              {filteredTrendingMovie?.vote_average}
-            </p>
+            <p className="text-base-light">{movie?.vote_average}</p>
           </div>
 
           <div className="flex gap-2">

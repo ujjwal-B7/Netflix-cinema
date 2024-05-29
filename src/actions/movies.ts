@@ -7,15 +7,15 @@ export const getTrendingMovies = async () => {
 };
 
 export const getGenreMovies = async () => {
-  //   const fetchedMovies = await getApiResponse("/genre/movie/list");
-  //   const genres = fetchedMovies.genres;
-  //   for (let genre of genres) {
-  //     const data = await getApiResponse(
-  //       `/discover/movie?with_genres=${genre.id}`
-  //     );
-  //     genre.movies = data.results;
-  //   }
-  //   return genres;
+    const fetchedMovies = await getApiResponse("/genre/movie/list");
+    const genres = fetchedMovies.genres;
+    for (let genre of genres) {
+      const data = await getApiResponse(
+        `/discover/movie?with_genres=${genre.id}`
+      );
+      genre.movies = data.results;
+    }
+    return genres;
 };
 
 export const fetchMovieDetails = async (id: number) => {

@@ -48,7 +48,7 @@ const Navbar = () => {
           <Link className="relative" href="/favorites">
             Favorites
           </Link>
-          <p className="bg-zinc-900 rounded-full px-1.5 absolute -top-2 -right-3 text-[0.8rem]">
+          <p className="bg-[#E50914] rounded-full px-1.5 absolute -top-2 -right-3 text-[0.8rem]">
             {favoriteCount}
           </p>
         </div>
