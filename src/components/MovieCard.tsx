@@ -17,11 +17,10 @@ const MovieCard = ({
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
-  console.log(filteredTrendingMovie.genres);
   return (
     <>
       <div
-        className="relative w-80 h-48  cursor-pointer hover:outline-white text-[0.9rem]"
+        className="mt-20 relative w-80 h-48  cursor-pointer hover:outline-white text-[0.9rem]"
         onClick={openModal}
       >
         <img

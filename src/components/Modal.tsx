@@ -8,6 +8,7 @@ import { AddCircle, CancelRounded, RemoveCircle } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   filteredTrendingMovie: Movie;
@@ -21,6 +22,7 @@ interface User {
 }
 
 const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
+  const router = useRouter();
   const [video, setVideo] = useState<string>("");
   const [genres, setGenres] = useState<Genre[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -61,12 +63,32 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
     getMovieDetails();
   }, [filteredTrendingMovie]);
 
+  const getUser = async () => {
+    try {
+      const response = await axios.get(
+        `/api/favorites/${session?.user?.email}`
+      );
+      setIsFavorite(
+        response.data.find((item: number) => item === filteredTrendingMovie.id)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (session) {
+      getUser();
+    }
+  }, [session]);
+
   const handleMyList = async () => {
     try {
       await axios.post(`/api/favorites/${session?.user?.email}`, {
         movieId: filteredTrendingMovie.id,
       });
       setIsFavorite(!isFavorite);
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -99,17 +121,22 @@ const Modal = ({ filteredTrendingMovie, closeModal }: Props) => {
               </p>
             </div>
             <div className="flex gap-3">
-              <p className="text-base-bold">Add To List</p>
               {isFavorite ? (
-                <RemoveCircle
-                  className="cursor-pointer text-pink-1"
-                  onClick={handleMyList}
-                />
+                <>
+                  <p className="text-base-bold">Remove From List</p>
+                  <RemoveCircle
+                    className="cursor-pointer text-pink-1"
+                    onClick={handleMyList}
+                  />
+                </>
               ) : (
-                <AddCircle
-                  className="cursor-pointer text-pink-1"
-                  onClick={handleMyList}
-                />
+                <>
+                  <p className="text-base-bold">Add To List</p>
+                  <AddCircle
+                    className="cursor-pointer text-pink-1"
+                    onClick={handleMyList}
+                  />
+                </>
               )}
             </div>
           </div>

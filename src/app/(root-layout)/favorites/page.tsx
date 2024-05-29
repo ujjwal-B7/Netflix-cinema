@@ -20,7 +20,6 @@ const Favorites = () => {
       const data = await axios.get(`/api/favorites/${session?.user?.email}`);
       favoriteMovies = data.data;
       localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
-      console.log("favorites", favoriteMovies);
 
       const myListDetails = await Promise.all(
         favoriteMovies.map(async (movieId: number) => {
@@ -40,7 +39,7 @@ const Favorites = () => {
   }, [session]);
 
   return (
-    <div className="flex flex-wrap gap-10 px-20 py-10">
+    <div className="flex flex-wrap gap-10 px-20">
       {myFavoriteMovies &&
         myFavoriteMovies.map((movie: Movie) => (
           <div>

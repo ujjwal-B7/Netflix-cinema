@@ -17,7 +17,7 @@ export const POST = async (
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw NextResponse.json("No user found.", { status: 400 });
+      throw NextResponse.json("No user found.", { status: 401 });
     }
     const isFavorite = user.favorites.includes(movieId);
 

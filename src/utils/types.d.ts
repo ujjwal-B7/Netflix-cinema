@@ -19,6 +19,7 @@ export interface Movie {
 export interface Genre {
   id: number;
   name: string;
+  movie: Movie[];
 }
 
 export interface Video {

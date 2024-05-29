@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { signOut } from "next-auth/react";
@@ -10,7 +10,19 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
-  const favorites = localStorage.getItem("favorites");
+  const [favoriteCount, setFavoriteCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchFavoritesCount = () => {
+      const favorites = localStorage.getItem("favorites");
+      if (favorites) {
+        const favoriteMovies = JSON.parse(favorites);
+        setFavoriteCount(favoriteMovies.length);
+      }
+    };
+
+    fetchFavoritesCount();
+  }, []);
 
   return (
     <nav className="z-50 bg-black/80 h-16 flex items-center justify-between lg:px-20 px-5">
@@ -37,7 +49,7 @@ const Navbar = () => {
             Favorites
           </Link>
           <p className="bg-zinc-900 rounded-full px-1.5 absolute -top-2 -right-3 text-[0.8rem]">
-            3
+            {favoriteCount}
           </p>
         </div>
       </div>
