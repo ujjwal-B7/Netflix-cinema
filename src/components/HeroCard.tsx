@@ -44,7 +44,7 @@ const HeroCard = ({ movies }: { movies: Movie }) => {
           </button>
         </div>
       </div>
-      {showModal && <Modal movies={movies} closeModal={closeModal} />}
+      {showModal && <Modal movie={movies} closeModal={closeModal} />}
     </>
   );
 };

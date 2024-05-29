@@ -12,6 +12,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.18",
+    "aos": "^2.3.4",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "mongoose": "^8.4.0",
@@ -22,6 +23,7 @@
     "react-hook-form": "^7.51.4"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.7",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
