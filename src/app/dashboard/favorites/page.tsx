@@ -12,14 +12,19 @@ import MovieCard from "@/components/MovieCard";
 
 const Favorites = () => {
   const { data: session } = useSession();
+
+  console.log(session);
+
   const [myFavoriteMovies, setMyFavoriteMovies] = useState<Movie[]>([]);
 
   let favoriteMovies: number[];
   const getFavorites = async () => {
+    console.log("ENtered");
     try {
       const data = await axios.get(`/api/favorites/${session?.user?.email}`);
       favoriteMovies = data.data;
       localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
+      console.log("*********", favoriteMovies);
 
       const myListDetails = await Promise.all(
         favoriteMovies.map(async (movieId: number) => {

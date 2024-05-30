@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <nav className="z-50 bg-black/80 h-16 flex items-center justify-between lg:px-20 px-5">
       <div className="flex gap-10">
-        <Link href="/">
+        <Link href="/dashboard">
           <svg
             viewBox="0 0 111 30"
             version="1.1"
@@ -44,8 +44,8 @@ const Navbar = () => {
           </svg>
         </Link>
         <div className="space-x-4 relative">
-          <Link href="/tv-shows">TV Shows</Link>
-          <Link className="relative" href="/favorites">
+          {/* <Link href="/tv-shows">TV Shows</Link> */}
+          <Link className="relative" href="/dashboard/favorites">
             Favorites
           </Link>
           <p className="bg-[#E50914] rounded-full px-1.5 absolute -top-2 -right-3 text-[0.8rem]">
@@ -74,7 +74,7 @@ const Navbar = () => {
         {showDropdown && (
           <div className="absolute bg-black/50 w-40 top-[3.2rem] right-0 text-center py-3 px-2 space-y-2 text-[#eeeeee] transition">
             <div>
-              <Link href="/favorites">Favorites</Link>
+              <Link href="/dashboard/favorites">Favorites</Link>
             </div>
             <hr className="border-zinc-600" />
             <button

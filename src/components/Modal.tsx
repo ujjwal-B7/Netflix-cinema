@@ -151,7 +151,9 @@ const Modal = ({ movie, closeModal }: Props) => {
           <div className="flex gap-2">
             <p className="text-base-bold">Genres:</p>
             <p className="text-base-light">
-              {genres.map((genre: Genre) => genre.name).join(", ")}
+              {genres
+                .map((genre: Genre) => genre.name)
+                .join(", ")}
             </p>
           </div>
         </div>

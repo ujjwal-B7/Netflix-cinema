@@ -8,6 +8,7 @@ const page = () => {
   useEffect(() => {
     AOS.init();
   }, []);
+  
   return (
     <div className="relative h-screen w-full bg-[url('/images/landing-bg.jpg')] bg-no-repeat bg-center bg-fixed bg-cover overflow-y-auto">
       <div className="bg-black/50 w-full h-full">

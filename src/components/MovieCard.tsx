@@ -33,12 +33,12 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
           <p>Rating:</p>
           <p className="text-base-light">{movie?.vote_average}</p>
         </div>
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <p>Genres:</p>
-          {/* <p className="text-base-light">
+          <p className="text-base-light">
             {movie.genres.map((genre: Genre) => genre.name).join(", ")}
-          </p> */}
-        </div>
+          </p>
+        </div> */}
         <div className="absolute inset-0 rounded-lg border-4 border-transparent hover:border-white"></div>
       </div>
 
